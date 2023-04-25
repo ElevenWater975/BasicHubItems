@@ -1,0 +1,154 @@
+# BasicHubItems
+# Running Version 1.0.0 
+# Created by ElevenWater975
+
+# Text color codes. Put these before your text to have colorful text:
+# &c: Red
+# &d: Light Purple
+# &a: Green
+# &b: Aqua
+# &e: Yellow
+# &f: White
+# &0: Black
+# &1: Dark Blue
+# &2: Dark Green
+# &3: Dark Aqua
+# &4: Dark Red
+# &5: Dark Purple
+# &6: Gold
+# &7: Gray
+# &8: Dark Gray
+# &9: Blue
+
+on drop:
+    if player is in world "world": # Set this to the world name of your hub
+        if player does not have permission "op":
+            cancel event
+
+on first join:
+    send "&d%player% has joined the server for the first time!"
+    play sound "entity.ender_dragon.growl" to all players # Plays the ender dragon growl effect when a player joins (Delete this if you want to)
+    
+on quit:
+    send "&4[&c-&4] &b%player%" # You can change this if you want to
+ 
+on join:
+    send title "&aWelcome to 'Server'" with subtitle "&b%player%" to player for 5 seconds # Change 'Server' to the name of your server
+    send "&3[&a+&3] &b%player%" # You can change this if you want to
+    play sound "block.note_block.pling" to player # Change this if you want to. But this plays a note block sound when you join.
+    
+    # Change the names of the items in the player's inventory.
+    set {_ServerSelector} to "&dServer Selector" 
+    set {_InformationBook} to "&6Information"
+    set {_EnderPearl} to "&bEnder Pearl"
+    
+    if player is in world "world": # Change "world" to the name of your world.
+        wait 1 second
+        make console execute command "/clear %player%"
+        wait 0.2 seconds
+        set slot 4 of player's inventory to 1 nether star named "%{_ServerSelector}%" # You can change this to a compass or some other item or keep it as a nether star
+        set slot 0 of player's inventory to 1 book named "%{_InformationBook}%"
+        set slot 8 of player's inventory to 16 ender pearl named "%{_EnderPearl}%"
+        if player has permission "op":
+            send "&6[Basic Hub Items] &bRunning Version 1.0.0" to player # Do not change this line
+            send "&6[Basic Hub Items] &bCreated by &aElevenWater975 [Spigot Name: NJE_Eleven]" to player # Do not change this line
+
+on load:
+    send "&6[Basic Hub Items] &bRunning Version 1.0.0" to all players # Do not change this line
+    send "&6[Basic Hub Items] &bCreated by &aElevenWater975 [Spigot Name: NJE_Eleven]" to all players # Do not change this line
+
+command /games:
+    trigger:
+        set metadata tag "games" of player to chest inventory with 4 rows named "&5Select your game:"
+        
+        # Edit these to your games:
+        # Also edit these to be the block that you want, so change the term 'bedrock' in the code to something like 'stone' or 'grass block'
+        # On 'bedrock named "&cGame 3 (Edit in config)" Change the text in quotes to the name of your minigame
+        
+        set slot 10 of metadata tag "games" of player to bedrock named "&cGame 1 (Edit in files)" # Minigame 1
+        set slot 11 of metadata tag "games" of player to bedrock named "&cGame 2 (Edit in files)" # Minigame 2
+        set slot 12 of metadata tag "games" of player to bedrock named "&cGame 3 (Edit in files)" # Minigame 3
+        set slot 13 of metadata tag "games" of player to bedrock named "&cGame 4 (Edit in files)" # Minigame 4
+        set slot 14 of metadata tag "games" of player to bedrock named "&cGame 5 (Edit in files)" # Minigame 5
+        set slot 15 of metadata tag "games" of player to bedrock named "&cGame 6 (Edit in files)" # Minigame 6
+        set slot 16 of metadata tag "games" of player to bedrock named "&cGame 7 (Edit in files)" # Minigame 7
+        
+        # This is section 2 of your minigames. If you have any minigames, please set them in the slots below and set the block as well.
+    
+        # If you do not have any minigames for section 2, set the blocks from 'bedrock' to 'air'
+        
+        set slot 19 of metadata tag "games" of player to bedrock named "&cGame 8 (Edit in files)" # Minigame 8
+        set slot 20 of metadata tag "games" of player to bedrock named "&cGame 9 (Edit in files)" # Minigame 9
+        set slot 21 of metadata tag "games" of player to bedrock named "&cGame 10 (Edit in files)" # Minigame 10
+        set slot 22 of metadata tag "games" of player to bedrock named "&cGame 11 (Edit in files)" # Minigame 11
+        set slot 23 of metadata tag "games" of player to bedrock named "&cGame 12 (Edit in files)" # Minigame 12
+        set slot 24 of metadata tag "games" of player to bedrock named "&cGame 13 (Edit in files)" # Minigame 13
+        set slot 25 of metadata tag "games" of player to bedrock named "&cGame 14 (Edit in files)" # Minigame 14
+        set slot 27 of metadata tag "games" of player to skull of player named "Player: &6%player%" # Not a minigame
+        open (metadata tag "games" of player) to player
+        
+command /basicitemshub:
+    trigger:
+        send "&6[Basic Items Hub] &bRunning Version 1.0.0"
+        send "&bThis skript plugin was created by &dElevenWater975 (Spigot name: NJE_Eleven)"
+        send "&bIf you have any questions about this plugin, please contact the creator at nje.eleven34@icloud.com"
+
+on right click with nether star: # Just as I said in line 49, you can change this to any item you want. Just make sure it matches the item in line 49.
+    make player execute command "/games"
+    play sound "block.lever.click" to player
+
+on right click with book: # The information book stuff
+    send "&2-------------------------------------------------"
+    send "&aWebsite: 'Website name'" # Change or delete this if you have to
+    send "&bDonate: 'donation link'" # Change or delete this if you have to 
+    send "&9Discord: 'Discord link'" # Change or delete this if you have to
+    send "&2-------------------------------------------------"
+    play sound "block.note_block.harp" to player
+    
+on inventory click:
+    if event-inventory = (metadata tag "games" of player):
+        cancel event
+        if index of event-slot is 10:
+        
+            # If you use BungeeCord, for the server you are trying to get the player to go on for a minigame, change the /warps to /server "server"
+            # If you are using essentials warps, change the 'game' to the name of the minigame warp.
+            
+            make player execute command "/warp 'game'" # Get rid of the single quotation marks when you set the warps
+        else if index of event-slot is 11:
+            make player execute command "/warp 'game'"
+        
+        else if index of event-slot is 12:
+            make player execute command "/warp 'game'"
+        
+        else if index of event-slot is 13:
+            make player execute command "/warp 'game'"
+        
+        else if index of event-slot is 14:
+            make player execute command "/warp 'game'"
+        
+        else if index of event-slot is 15:
+            make player execute command "/warp 'game'"
+        
+        else if index of event-slot is 16:
+            make player execute command "/warp 'game'"
+        
+        else if index of event-slot is 19:
+            make player execute command "/warp 'game'"
+        
+        else if index of event-slot is 20:
+            make player execute command "/warp 'game'"
+
+        else if index of event-slot is 21:
+            make player execute command "/warp 'game'"
+            
+        else if index of event-slot is 22:
+            make player execute command "/warp 'game'"
+
+        else if index of event-slot is 23:
+            make player execute command "/warp 'game'"
+                
+        else if index of event-slot is 24:
+            make player execute command "/warp 'game'"
+
+        else if index of event-slot is 25:
+            make player execute command "/warp 'game'"
